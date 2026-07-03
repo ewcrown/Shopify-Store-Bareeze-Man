@@ -1,0 +1,270 @@
+<div>
+  <div class="page-width">
+    <div class="two-image-banner-section"
+         style="
+           {% if section.settings.bg_color %}
+             background-color: {{ section.settings.bg_color }};
+           {% elsif section.settings.bg_image %}
+             background-image: url('{{ section.settings.bg_image | img_url: 'master' }}');
+             background-size: cover;
+             background-position: center;
+           {% else %}
+             background: linear-gradient(355deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgb(83, 176, 237) 100%);
+           {% endif %}
+         ">
+
+      <div class="banner-container">
+
+        <!-- LEFT COLUMN -->
+        <div class="image-column left-column">
+          <a href="{{ settings.urlbtn1 }}" class="image-link-wrapper promo-button brand-button maria" id="mariaButton">
+            <picture>
+              {% if section.settings.left_image_mobile %}
+                <source media="(max-width: 768px)" srcset="{{ section.settings.left_image_mobile | img_url: 'master' }}">
+              {% endif %}
+              <img src="{{ section.settings.left_image | img_url: 'master' }}" 
+                   alt="{{ section.settings.left_title }}" 
+                   class="banner-image" />
+            </picture>
+
+            <div class="content-overlay">
+              {% if section.settings.left_title != blank %}
+                <h3>{{ section.settings.left_title }}</h3>
+              {% endif %}
+
+              {% if section.settings.left_button_text != blank %}
+                {% comment %} <button class="promo-button" id="mariaButton">{{ section.settings.left_button_text }}</button> {% endcomment %}
+  <a href="{{ settings.urlbtn1 }}" class="promo-button brand-button maria" id="mariaButton">{{ section.settings.left_button_text }}</a>
+              {% endif %}
+            </div>
+          </a>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="image-column right-column">
+          <a href="{{ settings.urlbtn2 }}" class="image-link-wrapper promo-button brand-button mbasics" id="mbasicsButton">
+            <picture>
+              {% if section.settings.right_image_mobile %}
+                <source media="(max-width: 768px)" srcset="{{ section.settings.right_image_mobile | img_url: 'master' }}">
+              {% endif %}
+              <img src="{{ section.settings.right_image | img_url: 'master' }}" 
+                   alt="{{ section.settings.right_title }}" 
+                   class="banner-image" />
+            </picture>
+
+            <div class="content-overlay">
+              {% if section.settings.right_title != blank %}
+                <h3>{{ section.settings.right_title }}</h3>
+              {% endif %}
+
+              {% if section.settings.right_button_text != blank %}
+                {% comment %} <button class="promo-button" id="mbasicsButton">{{ section.settings.right_button_text }}</button> {% endcomment %}
+  <a href="{{ settings.urlbtn2 }}" class="promo-button brand-button mbasics" id="mbasicsButton">{{ section.settings.right_button_text }}</a>
+              {% endif %}
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.two-image-banner-section {
+    padding: 0px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.banner-container {
+    margin: 0 auto;
+    display: flex;
+    gap: 5px;
+    padding: 0px;
+    max-width: 100%;
+}
+
+.image-column {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0px;
+}
+
+.image-link-wrapper {
+    display: block;
+    position: relative;
+    text-decoration: none;
+    color: white;
+}
+
+.banner-image {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.image-column:hover .banner-image {
+    transform: scale(1.05);
+}
+
+.content-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: transparent;
+    padding: 20px;
+    transform: translate(-50%, -50%);
+}
+
+.content-overlay h3 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: white;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.promo-button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.promo-button:hover {
+    background-color: #eee;
+    color: black;
+}
+
+.image-column:hover .content-overlay {
+    background: transparent;
+}
+
+/* MOBILE STYLES */
+@media (max-width: 768px) {
+    .banner-container {
+        flex-direction: row;
+        gap: 3px;
+        max-width: 100%;
+    }
+    .banner-container .image-column img.banner-image {
+        height: 500px;
+    }
+    
+    .content-overlay h3 {
+        font-size: 18px;
+        white-space: nowrap;
+    }
+    .promo-button {
+    padding: 5px 10px;
+    font-size: 9px;
+    white-space: nowrap;
+}
+}
+</style>
+
+{% schema %}
+{
+  "name": "Landing page section",
+  "tag": "section",
+  "class": "two-image-banner-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "header",
+      "content": "Left Image Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "left_image",
+      "label": "Left Desktop Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "left_image_mobile",
+      "label": "Left Mobile Image"
+    },
+    {
+      "type": "text",
+      "id": "left_title",
+      "label": "Left Title",
+      "default": "Winter Collection"
+    },
+    {
+      "type": "url",
+      "id": "left_link",
+      "label": "Left Image Link"
+    },
+    {
+      "type": "text",
+      "id": "left_button_text",
+      "label": "Left Button Text",
+      "default": "Explore Now"
+    },
+    {
+      "type": "header",
+      "content": "Right Image Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_image",
+      "label": "Right Desktop Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_image_mobile",
+      "label": "Right Mobile Image"
+    },
+    {
+      "type": "text",
+      "id": "right_title",
+      "label": "Right Title",
+      "default": "Summer Sale"
+    },
+    {
+      "type": "url",
+      "id": "right_link",
+      "label": "Right Image Link"
+    },
+    {
+      "type": "text",
+      "id": "right_button_text",
+      "label": "Right Button Text",
+      "default": "Shop Sale"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Landing page section"
+    }
+  ]
+}
+{% endschema %}

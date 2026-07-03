@@ -1,0 +1,177 @@
+<style>
+  .time-wrap {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .time-wrap label {
+    flex: 1 1 50%;
+    align-items: center;
+    display: flex;
+  }
+  .time-wrap label input {
+    width: auto;
+    margin-right: 5px;
+  }
+  .time-label, .time-wrap label {
+    text-align: left;
+    font-size: 14px;
+  }
+  @media (max-width: 575px){
+    .time-label, .time-wrap label {
+      font-size: 12px;
+    }
+  }
+</style>
+{% form 'contact', id: 'contact-form-custom-tailoring' %}
+  <!-- Product Details -->
+  <input type="hidden" name="contact[product]" value="{{ product.title }}">
+  <input type="hidden" name="contact[product_url]" value="{{ shop.url }}{{ product.url }}">
+
+  <!-- Selected Variant Details -->
+  <input type="hidden" name="contact[dress_type]" id="selected_variant_dress" value="">
+  <input type="hidden" name="contact[article_no]" id="selected_variant_article" value="">
+  
+  <!-- Form Fields -->
+  <div class="m-form-custom-tailoring__wrapper">
+    <input
+      type="text"
+      class="form-field form-field--input"
+      name="contact[name]"
+      required
+      placeholder="{{ 'contact.ask-form.name' | t }}*"
+    >
+    <input
+      type="text"
+      class="form-field form-field--input"
+      name="contact[phone]"
+      required
+      placeholder="{{ 'contact.ask-form.phone' | t }}*"
+    >
+    <input
+      type="email"
+      class="form-field form-field--input"
+      name="contact[email]"
+      required
+      autocorrect="off"
+      placeholder="{{ 'contact.ask-form.email' | t }}*"
+    >
+    {% comment %}
+    <input
+      type="text"
+      class="form-field form-field--input"
+      name="contact[date]"
+      placeholder="Choose Date *"
+      onfocus="(this.type='date')"
+      onblur="(this.type='text')"
+      required
+    >
+
+    <!-- Time Slots -->
+    <br><br>
+    <div class="time-label">Time *</div>
+    <div class="time-wrap">
+      <label><input class="form-field form-field--input" type="radio" name="contact[time]" value="11:00AM - 12:00PM" required> 11:00AM - 12:00PM</label>
+      <label><input class="form-field form-field--input" type="radio" name="contact[time]" value="1:00PM - 2:00PM"> 1:00PM - 2:00PM</label>
+      <label><input class="form-field form-field--input" type="radio" name="contact[time]" value="2:00PM - 3:00PM"> 2:00PM - 3:00PM</label>
+      <label><input class="form-field form-field--input" type="radio" name="contact[time]" value="3:00PM - 4:00PM"> 3:00PM - 4:00PM</label>
+      <label><input class="form-field form-field--input" type="radio" name="contact[time]" value="4:00PM - 5:00PM"> 4:00PM - 5:00PM</label>
+      <label><input class="form-field form-field--input" type="radio" name="contact[time]" value="5:00PM - 6:00PM"> 5:00PM - 6:00PM</label>
+      <label><input class="form-field form-field--input" type="radio" name="contact[time]" value="6:00PM - 7:00PM"> 6:00PM - 7:00PM</label>
+    </div>
+    <br>
+    
+
+    <!-- Message Field -->
+    <textarea
+      class="form-field form-field--input"
+      name="contact[question]"
+      rows="4"
+      required
+      placeholder="{{ 'contact.ask-form.message' | t }}*"
+    ></textarea>{% endcomment %}
+    <p class="m-form-ask-question__note m:text-left m:text-color-subtext">* {{ 'contact.ask-form.required-fields' | t }}</p>
+    <button type="submit" class="m-button m-button--primary">Request Price</button>
+  </div>
+
+  <!-- Success Message -->
+  {% if form.posted_successfully? %}
+    <div
+      class="form-ask__success"
+      data-message="{{ 'contact.ask-form.post_success' | t }}"
+    ></div>
+  {% endif %}
+{% endform %}
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Function to update hidden input fields based on selected values
+  const updateHiddenInputs = () => {
+    const dressTypeElement = document.querySelector('[data-option-name="Dress Type"][data-selected-value]');
+    const articleNoElement = document.querySelector('[data-option-name="Article No"][data-selected-value]');
+
+    // Fetch the data-selected-value values
+    const dressTypeValue = dressTypeElement ? dressTypeElement.getAttribute('data-selected-value') : '';
+    const articleNoValue = articleNoElement ? articleNoElement.getAttribute('data-selected-value') : '';
+
+    // Update the hidden input fields
+    document.getElementById('selected_variant_dress').value = dressTypeValue;
+    document.getElementById('selected_variant_article').value = articleNoValue;
+  };
+
+  // Monitor changes in the data-selected-value attribute
+  const observer = new MutationObserver(updateHiddenInputs);
+
+  // Target all elements with data-option-name="Dress Type" and "Article No"
+  const targetElements = document.querySelectorAll('[data-option-name][data-selected-value]');
+
+  targetElements.forEach(element => {
+    observer.observe(element, { attributes: true, attributeFilter: ['data-selected-value'] });
+  });
+
+  // Initialize the inputs on page load
+  updateHiddenInputs();
+});
+
+
+
+</script>
+
+{%- assign product_url = shop.url | append: product.url -%}
+              <div class="notify-me">
+                <p class="title"></p>
+                <a href="https://wa.me/+923000569696?text=Hello, I am interested in the product: {{ product.title | url_encode }} - {{ shop.url }}{{ product.url }}"
+                  target="_blank"
+                  class="notify-me-button">
+                  <img src="https://cdn.shopify.com/s/files/1/0507/5229/1000/files/whatsapp-btn-icon.png?v=1737395119"><span>Inquire Now</span>
+                </a>
+              </div>
+
+<style>
+/* whatsapp Notify */
+  .notify-me {
+    margin: 15px 0 0 0;
+    padding-top: 10px;
+    border-top: 1px solid #e9e9e9;
+}
+.notify-me .title {
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 0;
+    color: #000;
+}
+.notify-me .notify-me-button {
+    padding: 10px 16px;
+    background: #000000;
+    color: #fff;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+}
+.notify-me .notify-me-button span {
+    margin-left: 10px;
+}
+.notify-me .notify-me-button:hover {
+    background: #000;
+}
+</style>
+

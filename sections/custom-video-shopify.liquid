@@ -1,0 +1,124 @@
+{% schema %}
+{
+  "name": "Custom Video",
+  "settings": [
+    {
+      "type": "video",
+      "id": "desktop_video",
+      "label": "Desktop Video"
+    },
+    {
+      "type": "video",
+      "id": "mobile_video",
+      "label": "Mobile Video (optional)"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Loop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "muted",
+      "label": "Muted",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "controls",
+      "label": "Show Controls",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Video (Responsive with Fallback)"
+    }
+  ]
+}
+{% endschema %}
+<div><div class="page-width">
+{% assign desktop_video = section.settings.desktop_video %}
+{% assign mobile_video = section.settings.mobile_video %}
+
+<div class="custom-video-wrapper">
+  {%- if desktop_video != blank -%}
+    {% liquid
+      assign desktop_video_url = ''
+      for source in desktop_video.sources
+        if source.format == 'mp4'
+          assign desktop_video_url = source.url
+          break
+        endif
+      endfor
+    %}
+  {%- endif -%}
+
+  {%- if mobile_video != blank -%}
+    {% liquid
+      assign mobile_video_url = ''
+      for source in mobile_video.sources
+        if source.format == 'mp4'
+          assign mobile_video_url = source.url
+          break
+        endif
+      endfor
+    %}
+    <!-- Mobile video (only visible on mobile if uploaded) -->
+    <video
+      class="hide-desktop video"
+      src="{{ mobile_video_url }}"
+      playsinline
+      {% if section.settings.controls %}controls{% endif %}
+      {% if section.settings.loop %}loop{% endif %}
+      {% if section.settings.muted %}
+        muted
+        {% if section.settings.autoplay %}autoplay{% endif %}
+      {% endif %}
+    ></video>
+  {% endif %}
+
+  {% if desktop_video_url != blank %}
+    <!-- Desktop video (always fallback on mobile if mobile video empty) -->
+    <video
+      class="{% if mobile_video != blank %}hide-mobile video{% endif %}"
+      src="{{ desktop_video_url }}"
+      playsinline
+      {% if section.settings.controls %}controls{% endif %}
+      {% if section.settings.loop %}loop{% endif %}
+      {% if section.settings.muted %}
+        muted
+        {% if section.settings.autoplay %}autoplay{% endif %}
+      {% endif %}
+    ></video>
+  {% endif %}
+</div>
+</div></div>
+<style>
+  .custom-video-wrapper video {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .custom-video-wrapper {
+    padding: 20px 65px;
+}
+
+  .hide-mobile.video { display: block!important; }
+  .hide-desktop.video { display: none!important; }
+
+  @media (max-width: 767px) {
+    .hide-mobile.video { display: none !important; }
+    .hide-desktop.video { display: block !important; }
+    .custom-video-wrapper {
+    padding: 20px 20px;
+}
+  }
+</style>

@@ -1,0 +1,57 @@
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <a href="{{ routes.root_url }}">Home</a>
+
+  {% if template.name == 'collection' and collection %}
+    <span class="separator">›</span>
+    <a href="/collections">Collections</a>
+
+    <span class="separator">›</span>
+    <span class="current">{{ collection.title }}</span>
+
+  {% elsif template.name == 'product' and product %}
+    <span class="separator">›</span>
+
+    {% if product.collections.first %}
+      <a href="{{ product.collections.first.url }}">
+        {{ product.collections.first.title }}
+      </a>
+      <span class="separator">›</span>
+    {% endif %}
+
+    <span class="current">{{ product.title }}</span>
+  {% endif %}
+</nav>
+
+<style>
+.breadcrumbs {
+  font-size: 13px;
+  font-family: Montserrat, sans-serif;
+  margin: 15px 0;
+}
+
+.breadcrumbs a {
+  text-decoration: none;
+  color: #000;
+}
+
+.breadcrumbs .separator {
+  margin: 0 6px;
+  color: #888;
+}
+
+.breadcrumbs .current {
+  font-weight: 600;
+  color: #000;
+}
+</style>
+
+{% schema %}
+{
+  "name": "Breadcrumbs",
+  "presets": [
+    {
+      "name": "Breadcrumbs"
+    }
+  ]
+}
+{% endschema %}

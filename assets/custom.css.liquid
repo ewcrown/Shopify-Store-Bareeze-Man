@@ -1,0 +1,45 @@
+{% comment %}
+  All custom CSS in this file will be kept when updating the theme
+  Write your custom CSS below
+{% endcomment %}
+
+/* .m-collection-card__image .m-image, .m-collection-card__image svg {
+    transition: 0.8s all ease-in-out;
+} */
+responsive-image, video, .m-product-card__main-image, .m-product-media .m-image, .m-collection-card__inner a, .m-mega-banner__image {
+  border-radius: 5px !important;
+}
+.m-product-card__media {
+  border: 1px solid #eee;
+  border-radius: 5px;
+}
+.m-product-card__action-wrapper .m-button:not(:hover) {
+  box-shadow: 0px 0px 0px 1px #000;
+}
+/* Tracking */
+.tm_tracking_content{
+  max-width: 1550px !important;
+}
+@media (min-width: 1280px) {
+  .tm_tracking_content {
+    padding: 0 var(--fluid-container-offset, 60px);
+  }
+}
+@media (max-width: 1279px) {
+  .tm_tracking_content {
+    padding: 0 15px;
+  }
+}
+.tm_tracking_line {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+.track_link{
+  margin-right: 15px;
+  font-size: 14px;
+}
+.track_link:hover{
+  font-weight: bold;
+  transition: all 0.5s;
+}
